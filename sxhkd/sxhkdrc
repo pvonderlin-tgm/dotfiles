@@ -1,0 +1,167 @@
+#################
+# bspwm hotkeys #
+#################
+
+#
+# WINDOW
+#
+
+# close window
+super + q
+    bspc node --close
+
+# kill window
+super + shift + q
+    bspc node --kill
+
+# change window state
+super + {t,shift + t,f,a}
+    bspc node --state "~{tiled,pseudo_tiled,floating,fullscreen}"
+
+# toggle window flags
+super + shift + s
+    bspc node --flag sticky
+
+# slelect last window on desktop
+alt + Tab
+    bspc node --focus next.local
+
+# move focus to seleted direction
+super + {h,j,k,l}
+    bspc node --focus {west,south,north,east}
+
+# preselect splitting area
+super + ctrl + {h,j,k,l}
+    bspc node --presel-dir "~{west,south,north,east}"
+
+# swap windows
+super + shift + {h,j,k,l}
+    bspc node --swap {west,south,north,east}
+
+# move Window to workspace
+super + shift + {1-9,0}
+    bspc node --to-desktop ^{1-9,10}
+
+# move Window to prev/next workspace
+super + alt + {h,l}
+    bspc node --to-desktop {prev,next}
+
+# flip the tree
+super + ctrl + {_,shift +} f
+    bspc node @focused:/ --flip {vertical,horizontal}
+
+# rotate the tree
+super + ctrl + r
+    bspc node @focused:/ --rotate 90
+
+# balance
+super + b
+    bspc node @focused:/ --balance
+
+#
+# DESKTOP
+#
+
+# switch to workspace 1-9
+super + {1-9,0}
+    bspc desktop --focus ^{1-9,10}
+
+# select previous/next desktop
+super + shift + {Left,Right}
+    bspc desktop --focus {prev,next}
+
+# switch to last desktop
+super + Tab
+    bspc desktop --focus last
+
+# monocle
+super + w
+    bspc desktop --layout next
+
+
+#
+# CONFIG
+#
+
+# resize window gap
+super + {o,i}
+    bspc config -d focused window_gap $((`bspc config -d focused window_gap` {+,-} 2))
+
+
+#
+# MOUSE
+#
+
+# resize window gap
+super + shift + button{4,5}
+    bspc config -d focused window_gap $((`bspc config -d focused window_gap` {+,-} 1))
+
+
+##########################
+# wm independent hotkeys #
+##########################
+
+# open termianl:
+super + Return
+    xfce4-terminal
+
+# open drop-down terminal
+super + asciicircum
+    drop
+
+# open application launcher
+super + d
+    albert
+
+# maxima in floating terminal
+super + c
+    bspc rule -a Xfce4-terminal -o state=floating; xfce4-terminal --geometry=64x24 -x rlwrap -H $HOME/.cache/maxima_history -s 1000 maxima
+
+# open file browser
+super + e
+    thunar
+
+# nautilus for fuzzy file search
+super + n
+    bspc rule -a Nautilus -o state=floating; nautilus
+
+# lock screen, lock and suspend
+super + {_,alt +} space
+    i3lock-fancy
+
+# logout
+super + alt + Escape
+    bspc quit
+
+# Strg + Alt = AltGr
+ctrl + alt + {7,8,9,0}
+    xvkbd -xsendevent -text {'\{','[',']','\}'}
+
+# reload sxhkd configuration files:
+super + ctrl + Escape
+    pkill -USR1 -x sxhkd
+
+# screenshots
+{_,super,super + ctrl} + Print
+    xfce4-screenshooter --sync -{f,w,r}
+
+# display settings
+super + p
+    xfce4-display-settings --minimal
+
+# mute/unmute sound
+super + m
+    amixer -q sset Master toggle
+
+# volume keys
+{XF86AudioRaiseVolume, XF86AudioLowerVolume}
+    amixer -q sset Master 2%{+,-}
+
+# brightness small steps
+{XF86MonBrightnessUp, XF86MonBrightnessDown}
+    xbacklight -{inc,dec} 5
+
+# brightness big steps
+ctrl + {XF86MonBrightnessUp, XF86MonBrightnessDown}
+    xbacklight -{inc,dec} 40
+
